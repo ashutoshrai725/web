@@ -147,7 +147,7 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: window.location.origin + 'web/'
+                    redirectTo: "https://ashutoshrai725.github.io/web/"
                 }
             });
 
@@ -157,6 +157,7 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
             setLoading(false);
         }
     };
+
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-manu-light to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
