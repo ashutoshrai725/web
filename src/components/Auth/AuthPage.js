@@ -24,23 +24,42 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
         fullName: ''
     });
 
-    // Check for existing session
+    // 🔥 Fix: Handle OAuth redirect + normal session
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            if (session) {
-                handleUserAuthenticated(session);
-            }
-        });
-
+        // Listener for auth changes
         const { data: { subscription } } = supabase.auth.onAuthStateChange(
             (event, session) => {
                 setSession(session);
-                if (session && event === 'SIGNED_IN') {
+                console.log("Auth Event:", event, session); // 👀 Debug
+                if (event === "SIGNED_IN" && session) {
                     handleUserAuthenticated(session);
                 }
             }
         );
+
+        // Check existing session
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            console.log("Initial Session:", session); // 👀 Debug
+            if (session) {
+                setSession(session);
+                handleUserAuthenticated(session);
+            }
+        });
+
+        // Handle OAuth redirect (Google Sign-In etc.)
+        const hash = window.location.hash;
+        if (hash.includes("access_token")) {
+            console.log("OAuth redirect detected, restoring session..."); // 👀 Debug
+            supabase.auth.getSession().then(({ data: { session } }) => {
+                if (session) {
+                    setSession(session);
+                    handleUserAuthenticated(session);
+                }
+            });
+
+            // Clean URL after restoring session
+            window.history.replaceState({}, document.title, "/web/");
+        }
 
         return () => subscription.unsubscribe();
     }, []);
@@ -106,7 +125,7 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
         try {
             if (isLogin) {
                 // Login
-                const { data, error } = await supabase.auth.signInWithPassword({
+                const { error } = await supabase.auth.signInWithPassword({
                     email: formData.email,
                     password: formData.password,
                 });
@@ -138,13 +157,13 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
         }
     };
 
-    // Google Sign In [web:304][web:306]
+    // Google Sign In
     const handleGoogleSignIn = async () => {
         setLoading(true);
         setError('');
 
         try {
-            const { data, error } = await supabase.auth.signInWithOAuth({
+            const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
                     redirectTo: "https://ashutoshrai725.github.io/web/"
@@ -157,7 +176,6 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
             setLoading(false);
         }
     };
-
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-manu-light to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -258,7 +276,7 @@ const AuthPage = ({ onUserAuth, onPageChange }) => {
                             </div>
                         </div>
 
-                        {/* Phone - Signup only (stored in metadata) */}
+                        {/* Phone - Signup only */}
                         {!isLogin && (
                             <div>
                                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
