@@ -74,7 +74,7 @@ const AIAgent2Page = ({ onPageChange }) => {
             </div>
             <div className="ai2-header">
                 <div className="ai2-logo">
-                    <img src="..\.\logos\manudocs_logo.jpg" height="70px" width="60px" alt="" />
+                    <img src="https://i.postimg.cc/qhqjBrYN/mnuverse.jpg" height="70px" width="60px" alt="" />
                 </div>
                 <div className="ai2-title" >MANUDOCS AI</div>
             </div>

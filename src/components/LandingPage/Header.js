@@ -13,7 +13,7 @@ const Header = ({ onPageChange, user, onLogout }) => {
                     {/* Logo */}
                     <div className="flex-shrink-0 flex items-center space-x-3">
                         <img
-                            src="/logos/manudocs_logo.jpg"
+                            src="https://i.postimg.cc/qhqjBrYN/mnuverse.jpg"
                             alt="MANUDOCS"
                             className="h-8 w-auto"
                         />

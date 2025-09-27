@@ -10,7 +10,7 @@ const Footer = () => {
                     {/* Logo and Description */}
                     <div className="col-span-1 md:col-span-2">
                         <img
-                            src="/logos/manudocs_logo.jpg"
+                            src="https://i.postimg.cc/qhqjBrYN/mnuverse.jpg"
                             alt="MANUDOCS"
                             className="h-12 w-auto mb-4"
                         />

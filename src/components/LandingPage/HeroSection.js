@@ -182,7 +182,7 @@ const HeroSection = ({ isMobile, onPageChange, user }) => {
                             >
                                 {/* AI Agent Image */}
                                 <motion.img
-                                    src="/images/e-cha-agent.png"
+                                    src="https://i.postimg.cc/ftyBWsFt/e-cha.png"
                                     alt="E-CHA AI Agent"
                                     className="w-80 h-80 md:w-96 md:h-96 object-contain drop-shadow-2xl"
                                     animate={{ y: [0, -10, 0] }}
